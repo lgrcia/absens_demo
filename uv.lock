@@ -34,6 +34,11 @@ dev = [
     { name = "pytest" },
 ]
 
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "boto3" },
@@ -52,6 +57,9 @@ requires-dist = [
     { name = "sentinelhub" },
     { name = "tqdm" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=9.0.2" }]
 
 [[package]]
 name = "aenum"

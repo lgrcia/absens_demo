@@ -26,6 +26,11 @@ dependencies = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/absens_demo"]
 
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
+
 [project.scripts]
 make_video = "absens_demo.cli:run"
 
