@@ -5,6 +5,16 @@ from absens_demo import main
 
 
 def parse_args():
+    """Parse command-line arguments for the absens-demo CLI.
+
+    Returns:
+        argparse.Namespace: Parsed arguments with attributes:
+            - bbox (list[float]): Bounding box [min_lon, min_lat, max_lon, max_lat].
+            - start_date (str): Start date in YYYY-MM-DD format.
+            - months (int): Number of months to cover.
+            - folder (Path | None): Directory to store downloaded data.
+            - output (str): Output GIF/video file path.
+    """
     parser = argparse.ArgumentParser(
         description="Download satellite imagery for a bounding box and create a video."
     )
@@ -44,6 +54,11 @@ def parse_args():
 
 
 def run():
+    """Entry point for the absens-demo CLI.
+
+    Parses arguments, downloads and aligns monthly satellite images for the
+    specified bounding box, then renders the output GIF/video.
+    """
     args = parse_args()
     if args.folder is None:
         folder = Path(tempfile.mkdtemp())

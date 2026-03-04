@@ -10,6 +10,13 @@ logger = logging.getLogger(__name__)
 
 
 def make_video(image_folder: Path, output_path: Path, fps: int = 1):
+    """Create an MP4 video from .npz image files in a folder.
+
+    Args:
+        image_folder (Path): Directory containing .npz files with an "rgb" key.
+        output_path (Path): Output path for the MP4 video file.
+        fps (int): Frames per second for the output video (default: 1).
+    """
     image_files = sorted(image_folder.glob("*.npz"))
     if not image_files:
         logger.warning(f"No images found in {image_folder}. Skipping video creation.")
@@ -31,6 +38,19 @@ def make_video(image_folder: Path, output_path: Path, fps: int = 1):
 
 
 def plot_function(raw, aligned, bbox=None):
+    """Plot raw and aligned images side by side with cloud mask contours.
+
+    Creates a two-row figure showing the raw image on top and the aligned image
+    below. Yellow contours indicate cloud coverage from the CLM mask. If a
+    bounding box is provided, axes are labelled with geographic coordinates.
+
+    Args:
+        raw (dict): Dictionary with keys "rgb" (np.ndarray) and "clm" (np.ndarray)
+            for the raw (unaligned) image.
+        aligned (dict): Dictionary with keys "rgb" and "clm" for the aligned image.
+        bbox (list[float] | None): Optional bounding box [west, south, east, north]
+            used to set axis extents and labels.
+    """
     extent = None
     if bbox is not None:
         # bbox: [west, south, east, north] -> extent: [left, right, bottom, top]

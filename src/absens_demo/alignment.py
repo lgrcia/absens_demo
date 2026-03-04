@@ -4,10 +4,30 @@ import cv2
 
 
 def edge_detection(image):
+    """Detect edges in a grayscale image using the Sobel filter.
+
+    Args:
+        image (np.ndarray): 2D grayscale image array.
+
+    Returns:
+        np.ndarray: Edge magnitude image of the same shape.
+    """
     return filters.sobel(image)
 
 
 def find_translation(im0, im1):
+    """Estimate the translation vector between two grayscale images using ECC.
+
+    Uses OpenCV's findTransformECC with a translation motion model to compute
+    the pixel-level shift that aligns im1 to im0.
+
+    Args:
+        im0 (np.ndarray): Reference grayscale image.
+        im1 (np.ndarray): Target grayscale image to align.
+
+    Returns:
+        np.ndarray: 1D array [tx, ty] representing the translation in pixels.
+    """
     # use findTransformECC from opencv
     # convert to float32
     im0 = im0.astype(np.float32)
@@ -22,6 +42,15 @@ def find_translation(im0, im1):
 
 
 def wrap_image(im, translation):
+    """Apply a translation to an image using affine warping.
+
+    Args:
+        im (np.ndarray): Image array to warp (any number of channels).
+        translation (np.ndarray): 1D array [tx, ty] representing the translation in pixels.
+
+    Returns:
+        np.ndarray: Warped image as a float32 array of the same shape.
+    """
     # convert to float32
     im = im.astype(np.float32)
     # wrap image

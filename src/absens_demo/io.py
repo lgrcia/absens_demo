@@ -42,6 +42,19 @@ def load_npy(path: Path) -> dict:
 def download_monthly_images(
     start_date: str, months: int, bbox: list[float], output_folder: Path
 ) -> int:
+    """Download monthly RGB+CLM images for a bounding box and save them as .npz files.
+
+    Skips months for which a file already exists in output_folder.
+
+    Args:
+        start_date (str): Start date in YYYY-MM-DD format.
+        months (int): Number of monthly intervals to download.
+        bbox (list[float]): Bounding box as [west, south, east, north] in WGS84.
+        output_folder (Path): Directory where .npz files will be saved.
+
+    Returns:
+        int: Number of images actually downloaded (excluding skipped files).
+    """
     output_folder.mkdir(parents=True, exist_ok=True)
     iso_start_end = monthly_iso_start_end(start_date, months=months)
     count = 0

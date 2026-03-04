@@ -16,6 +16,16 @@ COLLECTION_ID = "sentinel-2-l2a"
 
 
 def _base_json_request_with_clm(start_iso, end_iso, bbox):
+    """Build the base JSON request body for Sentinel Hub Process API with CLM output.
+
+    Args:
+        start_iso (str): Start datetime in ISO 8601 format (e.g. "2020-01-01T00:00:00Z").
+        end_iso (str): End datetime in ISO 8601 format.
+        bbox (list[float]): Bounding box as [west, south, east, north] in WGS84.
+
+    Returns:
+        dict: JSON request body with bounds, data filter, and dual output (image + cloud mask).
+    """
     return {
         "input": {
             "bounds": {
@@ -70,6 +80,16 @@ headers_request = {"Authorization": "Bearer %s" % token["access_token"]}
 
 
 def get_datetimes(start_date: str, end_date: str, bbox: list[float]) -> list[str]:
+    """Query the Sentinel Hub Catalog API for available scene datetimes.
+
+    Args:
+        start_date (str): Start date in YYYY-MM-DD format.
+        end_date (str): End date in YYYY-MM-DD format.
+        bbox (list[float]): Bounding box as [west, south, east, north] in WGS84.
+
+    Returns:
+        list[str]: ISO 8601 datetime strings for each available scene.
+    """
     CATALOG_URL = "https://services.sentinel-hub.com/api/v1/catalog/1.0.0/search"
 
     json_request = {
@@ -142,6 +162,18 @@ def get_rgb_image(start_iso, end_iso, bbox):
 
 
 def get_b8_image(start_iso, end_iso, bbox):
+    """Fetch the near-infrared (B08) band image and cloud mask from Sentinel Hub.
+
+    Args:
+        start_iso (str): Start datetime in ISO 8601 format.
+        end_iso (str): End datetime in ISO 8601 format.
+        bbox (list[float]): Bounding box as [west, south, east, north] in WGS84.
+
+    Returns:
+        dict: A dictionary with keys:
+            - "b8" (np.ndarray): Near-infrared band image as a numpy array.
+            - "clm" (np.ndarray): Cloud mask as a numpy array.
+    """
     evalscript = """
     //VERSION=3
 

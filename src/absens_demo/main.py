@@ -10,6 +10,21 @@ import matplotlib.pyplot as plt
 
 
 def download_and_align(bbox, start_date, months, destination: Path):
+    """Download monthly satellite images and align them to a reference image.
+
+    For each monthly interval, fetches RGB + cloud mask (CLM) data from Sentinel Hub,
+    saves the raw images, then aligns each one to a multi-year reference composite
+    using edge-based ECC translation estimation.
+
+    Args:
+        bbox (list[float]): Bounding box as [west, south, east, north] in WGS84.
+        start_date (str): Start date in YYYY-MM-DD format.
+        months (int): Number of monthly intervals to process.
+        destination (Path): Root output directory; subdirectories are created automatically.
+
+    Returns:
+        Path: Path to the base folder containing "raw/" and "aligned/" subdirectories.
+    """
     start_date_datetime = datetime.strptime(start_date, "%Y-%m-%d")
 
     # add the number of months to the start date
@@ -77,6 +92,18 @@ def download_and_align(bbox, start_date, months, destination: Path):
 
 
 def make_video(folder: Path, output, bbox=None):
+    """Render a GIF/video comparing raw and aligned images side by side.
+
+    Iterates over all .npz files in folder/raw/, loads the corresponding aligned
+    image from folder/aligned/, plots them side by side with cloud contours, and
+    writes each frame to the output file.
+
+    Args:
+        folder (Path): Base folder containing "raw/" and "aligned/" subdirectories.
+        output (str | Path): Output file path for the GIF or video.
+        bbox (list[float] | None): Optional bounding box [west, south, east, north]
+            used to set geographic axis labels and extents.
+    """
     writer = imageio.get_writer(output, mode="I", fps=10, loop=0)
 
     raw_folder = folder / "raw"
