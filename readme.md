@@ -1,13 +1,36 @@
 # absens_demo
 
-<img src="https://raw.githubusercontent.com/lgrcia/absens_demo_data/refs/heads/main/rome.gif" loop=infinite>
+![gif](https://raw.githubusercontent.com/lgrcia/absens_demo_data/refs/heads/main/rome.gif)
+
 This project aims to demonstrate the process of aligning images on L1C Sentinel-2 data.
+
+## Quick test
+
+Without further ado
+
+```bash
+mkdir test_absens_demo
+cd test_absens_demo
+uv venv --python=3.11
+source .venv/bin/activate
+uv pip install git+https://github.com/lgrcia/absens_demo.git
+```
+Then create an `.env` file with
+```raw
+CLIENT_ID=your_sentinel_hub_client_id
+CLIENT_SECRET=your_sentinel_hub_client_secret
+```
+And finally
+```bash
+uv run --env-file .env make_video --bbox 12.44 41.87 12.54 41.91 --start-date 2022-01-01 --months 24 --output rome.gif
+```
+`rome.gif`
 
 ## Steps taken
 
 ### Preparation
 
-I started by reading [Sentinel Hub Beginners Guide](https://docs.sentinel-hub.com/api/latest/user-guides/beginners-guide/), created a Sentinel Hub account and explored how to request data using the [Process API](https://docs.sentinel-hub.com/api/latest/reference/#tag/process/operation/process).
+To prepare this project started by reading [Sentinel Hub Beginners Guide](https://docs.sentinel-hub.com/api/latest/user-guides/beginners-guide/), created a Sentinel Hub account and explored how to request data using the [Process API](https://docs.sentinel-hub.com/api/latest/reference/#tag/process/operation/process).
 
 ### Scoping the project
 
@@ -43,6 +66,7 @@ Before describing how to install, configure and run this application, here are s
 - Study the robustness of the alignment method:
   - Using the developed metrics, study which bands/metadata combinations lead to the better alignment
   - Also study which pre-processing algorithm (such as edge detection algorithms) lead to the best result
+  - Use the Cloud Mask data to assess coverage and decide if alignment is worth attempting
 
 *Infrastructure*
 - Implementing a FastAPI to use the function as part of a separate service
@@ -55,21 +79,24 @@ Before describing how to install, configure and run this application, here are s
 
 ## Installation
 
+Requires Python 3.10+. Install directly from the repository with [uv](https://docs.astral.sh/uv/) (recommended):
+
+```bash
+uv pip install git+https://github.com/lgrcia/absens_demo.git
+```
+
+Or clone and install locally:
+
 ```bash
 git clone https://github.com/lgrcia/absens_demo.git
 cd absens_demo
-```
-
-Requires Python 3.10+. Install with [uv](https://docs.astral.sh/uv/) (recommended):
-
-```bash
 uv sync
 ```
 
 Or with pip:
 
 ```bash
-pip install .
+pip install git+https://github.com/lgrcia/absens_demo.git
 ```
 
 ## Configuration
@@ -105,7 +132,7 @@ uv run  --env-file .env make_video --bbox 1.35 43.55 1.50 43.65 --start-date 202
 
 **Example** - Rome 
 ```bash
-uv run  --env-file .env make_video --bbox 12.44 41.87 12.54 41.91 --start-date 2022-01-01 --months 24 --output rome.gif
+uv run  --env-file .env make_video --bbox 12.44 41.87 12.52 41.91 --start-date 2022-01-01 --months 24 --output rome.gif
 ```
 
 You can use the [Sentinel Hub Requests Builder](https://apps.sentinel-hub.com/requests-builder/) to find the bounding box coordinates for any area of interest.
