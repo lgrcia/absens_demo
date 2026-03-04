@@ -1,6 +1,6 @@
-from skimage import filters
-import numpy as np
 import cv2
+import numpy as np
+from skimage import filters
 
 
 def edge_detection(image):

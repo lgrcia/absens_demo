@@ -1,8 +1,8 @@
 import numpy as np
 from skimage.filters import gaussian
 
-from absens_demo.utils import monthly_iso_start_end
 from absens_demo.alignment import edge_detection, find_translation, wrap_image
+from absens_demo.utils import monthly_iso_start_end
 
 
 def _sinusoidal_image(size=200):
@@ -98,8 +98,8 @@ def test_wrap_then_find_translation_roundtrip():
     im0 = large[:sz, :sz].copy()
     im1 = large[ty : sz + ty, tx : sz + tx].copy()
 
-    translation = find_translation(im0, im1)       # ≈ [-tx, -ty]
-    im1_corrected = wrap_image(im1, translation)   # shift im1 back toward im0
+    translation = find_translation(im0, im1)  # ≈ [-tx, -ty]
+    im1_corrected = wrap_image(im1, translation)  # shift im1 back toward im0
 
     # Compare the interior, away from the zero-padded border introduced by warpAffine
     pad = max(tx, ty) + 2

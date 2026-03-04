@@ -1,6 +1,7 @@
-import numpy as np
 import logging
 from pathlib import Path
+
+import numpy as np
 
 from .requests import get_rgb_image
 from .utils import monthly_iso_start_end
