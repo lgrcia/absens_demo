@@ -5,11 +5,11 @@ This project aims to demonstrate the process of aligning images on L1C Sentinel-
 
 ### Preparation
 
-I started by reading https://docs.sentinel-hub.com/api/latest/user-guides/beginners-guide/, created a Sentinel Hub account and explored how to request data using the https://services.sentinel-hub.com/api/v1/process API.
+I started by reading [Sentinel Hub Beginners Guide](https://docs.sentinel-hub.com/api/latest/user-guides/beginners-guide/), created a Sentinel Hub account and explored how to request data using the [Process API](https://docs.sentinel-hub.com/api/latest/reference/#tag/process/operation/process).
 
 ### Scoping the project
 
-I first implemented functions to retrieve the images and started by using the Catalog API to see what images would be available within a date range. I realized I would not need the temporal resolution available (fast-burst of images located around the same datetime) and that it would be easier to pick the least cloudy images on a monthly basis. This would also make for a more interesting visualization as the landscape might display larger changes (buildings being built, seasonal changes, etc.).
+I first implemented functions to retrieve the images and started by using the [Catalog API](https://docs.sentinel-hub.com/api/latest/reference/#tag/catalog_item_search/operation/postCatalogItemSearch) to see what images would be available within a date range. I realized I would not need the temporal resolution available (fast-burst of images located around the same datetime) and that it would be easier to pick the least cloudy images on a monthly basis. This would also make for a more interesting visualization as the landscape might display larger changes (buildings being built, seasonal changes, etc.).
 
 **Given all this, I decided that the developed application will allow a user to see a video of aligned monthly images for a given region on Earth.**
 
@@ -106,3 +106,13 @@ uv run  --env-file .env make_video --bbox 12.44 41.87 12.54 41.91 --start-date 2
 ```
 
 You can use the [Sentinel Hub Requests Builder](https://apps.sentinel-hub.com/requests-builder/) to find the bounding box coordinates for any area of interest.
+
+
+## Highlighted good development practices
+
+In this project I followed several practices to make the development tractable.
+
+- **Semantic commits**: I used the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification, *A specification for adding human and machine readable meaning to commit messages*
+- **Comments and Python Docstrings**: 
+- **Git and Pull Request**:
+- **Unit-test**:
