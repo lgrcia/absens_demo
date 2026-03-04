@@ -45,7 +45,11 @@ def parse_args():
 
 def run():
     args = parse_args()
-    folder = args.folder or Path(tempfile.mkdtemp())
+    if args.folder is None:
+        folder = Path(tempfile.mkdtemp())
+        print(f"No folder specified, using temporary folder: {folder}")
+    else:
+        folder = args.folder
     data_folder = main.download_and_align(args.bbox, args.start_date, args.months, folder)
     main.make_video(data_folder, args.output)
     print(f"Video saved to {args.output}")
