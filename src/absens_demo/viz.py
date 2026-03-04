@@ -49,7 +49,7 @@ def plot_function(raw, aligned, bbox=None):
             origin="upper",
         )
 
-    dpi = 100
+    dpi = 120
     margin_w = 1.5  # y-label + ytick labels on the left
     margin_h = 0.8  # title on top + x-label/xtick labels on bottom
     if bbox is not None:
@@ -58,23 +58,23 @@ def plot_function(raw, aligned, bbox=None):
         # Correct longitude for latitude: 1° lon = cos(lat) * 1° lat in distance
         mean_lat = (bbox[1] + bbox[3]) / 2
         effective_lon_span = lon_span * np.cos(np.radians(mean_lat))
-        scale = 100.0  # inches per degree of latitude
+        scale = 150.0  # inches per degree of latitude
         figsize = (
-            2 * effective_lon_span * scale + margin_w,
-            lat_span * scale + margin_h,
+            lon_span * scale,
+            2 * lat_span * scale,
         )
     else:
         h, w = raw["rgb"].shape[:2]
-        figsize = (2 * w / dpi + margin_w, h / dpi + margin_h)
-    _, axes = plt.subplots(1, 2, figsize=figsize, sharey=True, sharex=True, dpi=dpi)
+        figsize = (w / dpi + margin_w, 2 * h / dpi)
+    _, axes = plt.subplots(2, 1, figsize=figsize, sharey=True, sharex=True, dpi=dpi)
     plot_rgb_clm(raw, axes[0])
     axes[0].set_title("Raw Image")
     plot_rgb_clm(aligned, axes[1])
     axes[1].set_title("Aligned Image")
 
     if bbox is not None:
+        axes[1].set_xlabel("Longitude (°)")
         for ax in axes:
-            ax.set_xlabel("Longitude (°)")
-        axes[0].set_ylabel("Latitude (°)")
+            ax.set_ylabel("Latitude (°)")
 
     plt.tight_layout()
