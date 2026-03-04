@@ -24,7 +24,9 @@ And finally
 ```bash
 uv run --env-file .env make_video --bbox 12.44 41.87 12.54 41.91 --start-date 2022-01-01 --months 24 --output rome.gif
 ```
-`rome.gif`
+`rome.gif` is a gif showing the city of Rome from January 2022 to December 2023, with one frame per month. The images are aligned to show the same area across frames, and the clouds highlighted in yellow contours.
+
+`make_video` is a CLI application using a well-documented and tested `absens_demo` Python package.
 
 ## Steps taken
 
@@ -72,6 +74,7 @@ Before describing how to install, configure and run this application, here are s
 - Implementing a FastAPI to use the function as part of a separate service
 - If multiple users were to make requests, from a frontend for example, orchestrate the download and alignment using a workflow management tool (e.g. airflow) for async/scheduled processing
 - Test using known images and outputs instead of mock data (e.g. `_sinusoidal_image` in `test/test_utils`)
+- Release the package on PyPI and implement proper versioning
 
 *Performance*
 - If performance is a concern, try implementing a multiprocessing approach for the alignment
