@@ -44,3 +44,4 @@ coverage.xml
 *.swo
 notebooks
 .DS_Store
+data
