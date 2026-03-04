@@ -162,3 +162,7 @@ I used LLMs and agents throughout the project in several ways:
 - **Improve flow and fix typos**: I often ask an LLM to improve the flow and fix the typos of my sentences, while trying to stay close to my own wording.
 
 In every case, I reviewed and validated the generated code manually before accepting it.
+
+## Final words
+
+Technically I assume there are better ways to treat this problem: better co-registration algorithms, strategies to process images faster... etc. However, with the limited time I had (about half a day), I wanted to focus on showing my capabilities as a software engineer, integrating good practices and being able to rapidly deliver a working solution designed to be maintainable and expandable by others. As a former scientist I know for a fact that these qualities are not so common in a research environment. Hence, I hope this project demonstrates that I am capable of being a key asset in a production environment, bringing along my scientific rigor and motivation to work on demanding state-of-the-art problems. Thanks for proposing this challenge to me!
