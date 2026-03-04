@@ -45,6 +45,7 @@ Before describing how to install, configure and run this application, here are s
 *Infrastructure*
 - Implementing a FastAPI to use the function as part of a separate service
 - If multiple users were to make requests, from a frontend for example, orchestrate the download and alignment using a workflow management tool (e.g. airflow) for async/scheduled processing
+- Test using known images and outputs instead of mock data (e.g. `_sinusoidal_image` in `test/test_utils`)
 
 *Performance*
 - If performance is a concern, try implementing a multiprocessing approach for the alignment
@@ -116,3 +117,17 @@ In this project I followed several practices to make the development tractable.
 - **Comments and Python Docstrings**: 
 - **Git and Pull Request**:
 - **Unit-test**:
+
+
+## On the use of AI
+
+I used LLMs and agents throughout the project in several ways:
+
+- **Scoping**: I asked an LLM questions about common practices in satellite image co-registration to help define the project scope. When doing so I try verified that any cited sources is real.
+- **Code suggestions**
+- **Test writing**: I used agents to write tests I formulated with natural language. This introduced me to the standard `unittest.mock` module, which is the kind of learning opportunity I love from working with agents.
+- **Docstring generation**: I delegated the writing of Python docstrings across package modules to agents.
+- **Refactoring**: I used agents extensively to reshape dev scripts into a well-structured Python package. Years of doing this manually allowed me to be very precise about the target structure (see my other Python packages).
+- **Improve flow and fix typos**: I often ask an LLM to improve the flow and fix the typos of my sentences, while trying to stay close to my own wording.
+
+In every case, I reviewed and validated the generated code manually before accepting it.

@@ -1,4 +1,4 @@
-from absens_demo import requests, utils, viz, io as absens_io
+from absens_demo import requests, utils, viz, io as absens_io, alignment
 from datetime import datetime, timedelta
 from pathlib import Path
 from tqdm import tqdm
@@ -44,7 +44,7 @@ def download_and_align(bbox, start_date, months, destination: Path):
         "2020-01-01T00:00:00Z", "2024-01-01T00:00:00Z", bbox
     )
 
-    ref_edges = utils.edge_detection(reference_image["rgb"].mean(-1))
+    ref_edges = alignment.edge_detection(reference_image["rgb"].mean(-1))
     aligned_folder = base_folder / "aligned"
     aligned_folder.mkdir(exist_ok=True, parents=True)
 
@@ -54,13 +54,13 @@ def download_and_align(bbox, start_date, months, destination: Path):
         rgb = absens_io.load_npy(im)["rgb"]
         clm = absens_io.load_npy(im)["clm"]
         mean_rgb = rgb.mean(-1)
-        edges = utils.edge_detection(mean_rgb)
+        edges = alignment.edge_detection(mean_rgb)
         try:
-            translation = utils.find_translation(ref_edges, edges)
-            wrapped_rgb = utils.wrap_image(rgb, translation)
+            translation = alignment.find_translation(ref_edges, edges)
+            wrapped_rgb = alignment.wrap_image(rgb, translation)
             # convert to uint8
             wrapped_rgb = np.clip(wrapped_rgb, 0, 255).astype(np.uint8)
-            wrapped_clm = utils.wrap_image(clm, translation)
+            wrapped_clm = alignment.wrap_image(clm, translation)
             wrapped_clm = np.clip(wrapped_clm, 0, 255).astype(np.uint8)
 
         except cv2.error as e:
