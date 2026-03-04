@@ -1,4 +1,7 @@
 # absens_demo
+
+![gif](https://raw.githubusercontent.com/lgrcia/absens_demo_data/refs/heads/main/rome.gif)
+
 This project aims to demonstrate the process of aligning images on L1C Sentinel-2 data.
 
 ## Steps taken
