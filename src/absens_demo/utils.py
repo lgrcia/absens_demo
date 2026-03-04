@@ -1,4 +1,6 @@
-from datetime import datetime, timedelta
+from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
 
 
 def monthly_iso_start_end(start_date: str, months: int) -> list[tuple[str, str]]:
@@ -10,14 +12,14 @@ def monthly_iso_start_end(start_date: str, months: int) -> list[tuple[str, str]]
 
     Returns:
         list[tuple[str, str]]: List of (start_iso, end_iso) pairs, each covering
-            a 30-day window offset from start_date.
+            an exact calendar month window offset from start_date.
     """
     start_datetime: datetime = datetime.strptime(start_date, "%Y-%m-%d")
 
     iso_start_end = [
         (
-            (start_datetime + timedelta(days=i * months)).isoformat() + "Z",
-            (start_datetime + timedelta(days=(i + 1) * months)).isoformat() + "Z",
+            (start_datetime + relativedelta(months=i)).isoformat() + "Z",
+            (start_datetime + relativedelta(months=i + 1)).isoformat() + "Z",
         )
         for i in range(months)
     ]

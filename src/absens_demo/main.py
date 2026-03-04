@@ -118,7 +118,11 @@ def make_video(folder: Path, output, bbox=None):
     for im in tqdm(images, desc="Making video"):
         im_raw = absens_io.load_npy(im)
         im_aligned = absens_io.load_npy(aligned_folder / im.name)
-        viz.plot_function(im_raw, im_aligned, bbox=bbox)
+        start_str, end_str = im.stem.split("_")
+        start_dt = datetime.strptime(start_str, "%Y-%m-%dT%H:%M:%SZ")
+        end_dt = datetime.strptime(end_str, "%Y-%m-%dT%H:%M:%SZ")
+        timestamp = f"{start_dt.strftime('%m/%Y')} - {end_dt.strftime('%m/%Y')}"
+        viz.plot_function(im_raw, im_aligned, bbox=bbox, timestamp=timestamp)
         buf = io.BytesIO()
         plt.savefig(buf)
         writer.append_data(imageio.imread(buf))
