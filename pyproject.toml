@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "absens-demo"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "boto3",
+    "numpy",
+    "matplotlib",
+    "ipykernel",
+    "oauthlib",
+    "pillow",
+    "requests-oauthlib",
+    "opencv-python",
+    "imageio[ffmpeg]",
+    "requests-toolbelt>=1.0.0",
+    "sentinelhub",
+    "scipy>=1.15.3",
+    "scikit-image>=0.25.2",
+    "tqdm",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/absens_demo"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
