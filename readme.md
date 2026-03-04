@@ -127,7 +127,7 @@ make_video --bbox MIN_LON MIN_LAT MAX_LON MAX_LAT [--start-date YYYY-MM-DD] [--m
 | `--folder`     | Directory to store downloaded data                | temporary folder |
 | `--output`     | Output GIF file path                              | `output.gif`     |
 
-**Example** — Toulouse city centre, 12 months starting January 2022:
+**Example** — Toulouse secret location ;), 12 months starting January 2022:
 
 ```bash
 uv run  --env-file .env make_video --bbox 1.35 43.55 1.50 43.65 --start-date 2022-01-01 --months 24 --output toulouse.gif
