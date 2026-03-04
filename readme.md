@@ -147,7 +147,7 @@ In this project I followed several practices to make the development tractable.
 
 - **Semantic commits**: I used the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification, *A specification for adding human and machine readable meaning to commit messages*
 - **Comments and Python Docstrings**: All public functions across the package modules are documented with Google-style docstrings. I tried to use inline commnet as much as possible to clarify implementation details
-- **Git and Pull Request**: I used git to version control the project and made a pull request I handled on GitHub to merge the development branch into main. This workflow is extremely common for me as the main maintainer and contributor of numerous Python packages.
+- **Git and Pull Request**: I used git to version control the project and made a pull request I handled on GitHub to merge the development branch into main. This workflow is extremely common for me as the main maintainer and contributor of numerous opens-source Python packages.
 - **Unit tests**: I wrote unit tests for some main functions across the package modules. Most of this was done using an LLM agent and reviewed carefully. Overall this development could have benefited more from continuous test writings.
 
 ## On the use of AI
