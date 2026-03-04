@@ -76,12 +76,8 @@ def download_and_align(bbox, start_date, months, destination: Path):
     return base_folder
 
 
-def make_video(folder: Path, output):
-    writer = imageio.get_writer(
-        output,
-        mode="I",
-        fps=10,
-    )
+def make_video(folder: Path, output, bbox=None):
+    writer = imageio.get_writer(output, mode="I", fps=10, loop=0)
 
     raw_folder = folder / "raw"
     aligned_folder = folder / "aligned"
@@ -91,7 +87,7 @@ def make_video(folder: Path, output):
     for im in tqdm(images, desc="Making video"):
         im_raw = absens_io.load_npy(im)
         im_aligned = absens_io.load_npy(aligned_folder / im.name)
-        viz.plot_function(im_raw, im_aligned)
+        viz.plot_function(im_raw, im_aligned, bbox=bbox)
         buf = io.BytesIO()
         plt.savefig(buf)
         writer.append_data(imageio.imread(buf))

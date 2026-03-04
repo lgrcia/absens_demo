@@ -30,10 +30,14 @@ def make_video(image_folder: Path, output_path: Path, fps: int = 1):
     logger.info(f"Video saved to {output_path}")
 
 
-def plot_function(raw, aligned):
+def plot_function(raw, aligned, bbox=None):
+    extent = None
+    if bbox is not None:
+        # bbox: [west, south, east, north] -> extent: [left, right, bottom, top]
+        extent = [bbox[0], bbox[2], bbox[1], bbox[3]]
+
     def plot_rgb_clm(data, ax):
-        ax.imshow(data["rgb"])
-        clm_alpha = np.where(data["clm"] > 0, 1, np.nan)
+        ax.imshow(data["rgb"], extent=extent)
         # draw contour around clouds
         ax.contour(
             data["clm"],
@@ -41,11 +45,36 @@ def plot_function(raw, aligned):
             colors="yellow",
             linewidths=0.5,
             alpha=1,
+            extent=extent,
+            origin="upper",
         )
 
-    _, axes = plt.subplots(1, 2, figsize=(10, 5), sharey=True, sharex=True)
+    dpi = 100
+    margin_w = 1.5  # y-label + ytick labels on the left
+    margin_h = 0.8  # title on top + x-label/xtick labels on bottom
+    if bbox is not None:
+        lon_span = bbox[2] - bbox[0]
+        lat_span = bbox[3] - bbox[1]
+        # Correct longitude for latitude: 1° lon = cos(lat) * 1° lat in distance
+        mean_lat = (bbox[1] + bbox[3]) / 2
+        effective_lon_span = lon_span * np.cos(np.radians(mean_lat))
+        scale = 100.0  # inches per degree of latitude
+        figsize = (
+            2 * effective_lon_span * scale + margin_w,
+            lat_span * scale + margin_h,
+        )
+    else:
+        h, w = raw["rgb"].shape[:2]
+        figsize = (2 * w / dpi + margin_w, h / dpi + margin_h)
+    _, axes = plt.subplots(1, 2, figsize=figsize, sharey=True, sharex=True, dpi=dpi)
     plot_rgb_clm(raw, axes[0])
     axes[0].set_title("Raw Image")
     plot_rgb_clm(aligned, axes[1])
     axes[1].set_title("Aligned Image")
+
+    if bbox is not None:
+        for ax in axes:
+            ax.set_xlabel("Longitude (°)")
+        axes[0].set_ylabel("Latitude (°)")
+
     plt.tight_layout()

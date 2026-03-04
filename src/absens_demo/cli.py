@@ -51,7 +51,7 @@ def run():
     else:
         folder = args.folder
     data_folder = main.download_and_align(args.bbox, args.start_date, args.months, folder)
-    main.make_video(data_folder, args.output)
+    main.make_video(data_folder, args.output, bbox=args.bbox)
     print(f"Video saved to {args.output}")
 
 
