@@ -1,10 +1,11 @@
 import io
-import numpy as np
 from unittest.mock import MagicMock, patch
+
+import numpy as np
 from PIL import Image
 
-from absens_demo.requests import get_rgb_image
 import absens_demo.requests as req_module
+from absens_demo.requests import get_rgb_image
 
 
 def _jpeg_bytes(h=8, w=8):

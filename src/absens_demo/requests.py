@@ -1,12 +1,13 @@
-from oauthlib.oauth2 import BackendApplicationClient
-from requests_oauthlib import OAuth2Session
-from requests_toolbelt.multipart.decoder import MultipartDecoder
-from PIL import Image
 import io
-import numpy as np
+import json
 import logging
 import os
-import json
+
+import numpy as np
+from oauthlib.oauth2 import BackendApplicationClient
+from PIL import Image
+from requests_oauthlib import OAuth2Session
+from requests_toolbelt.multipart.decoder import MultipartDecoder
 
 logger = logging.getLogger(__name__)
 

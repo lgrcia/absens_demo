@@ -1,12 +1,16 @@
-from absens_demo import requests, utils, viz, io as absens_io, alignment
+import io
 from datetime import datetime, timedelta
 from pathlib import Path
-from tqdm import tqdm
-import numpy as np
+
 import cv2
-import io
 import imageio
 import matplotlib.pyplot as plt
+import numpy as np
+from tqdm import tqdm
+
+from absens_demo import alignment
+from absens_demo import io as absens_io
+from absens_demo import requests, utils, viz
 
 
 def download_and_align(bbox, start_date, months, destination: Path):

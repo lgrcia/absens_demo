@@ -1,6 +1,7 @@
 import argparse
 import tempfile
 from pathlib import Path
+
 from absens_demo import main
 
 
@@ -65,7 +66,9 @@ def run():
         print(f"No folder specified, using temporary folder: {folder}")
     else:
         folder = args.folder
-    data_folder = main.download_and_align(args.bbox, args.start_date, args.months, folder)
+    data_folder = main.download_and_align(
+        args.bbox, args.start_date, args.months, folder
+    )
     main.make_video(data_folder, args.output, bbox=args.bbox)
     print(f"Video saved to {args.output}")
 

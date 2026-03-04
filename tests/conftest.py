@@ -2,6 +2,7 @@
 Patch OAuth2Session before any test module imports absens_demo.requests.
 The module runs OAuth token-fetching at import time, so we intercept it here.
 """
+
 from unittest.mock import MagicMock, patch
 
 _mock_oauth = MagicMock()
