@@ -58,8 +58,8 @@ def _base_json_request_with_clm(start_iso, end_iso, bbox):
             ],
         },
         "output": {
-            "width": 1024,
-            "height": 1024,
+            "width": (bbox[2] - bbox[0]) * 10000,
+            "height": (bbox[3] - bbox[1]) * 10000,
             "responses": [
                 {
                     "identifier": "default",
@@ -152,6 +152,9 @@ def get_rgb_image(start_iso, end_iso, bbox):
         };
     }
     """
+
+    if isinstance(bbox, np.ndarray):
+        bbox = bbox.tolist()
 
     json_request = _base_json_request_with_clm(start_iso, end_iso, bbox)
     json_request["evalscript"] = evalscript
