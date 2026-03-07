@@ -9,6 +9,17 @@ from PIL import Image
 from requests_oauthlib import OAuth2Session
 from requests_toolbelt.multipart.decoder import MultipartDecoder
 
+import io
+from datetime import datetime
+from pathlib import Path
+
+import numpy as np
+from tqdm import tqdm
+
+from absens_demo import utils, io as absens_io
+from dateutil.relativedelta import relativedelta
+
+
 logger = logging.getLogger(__name__)
 
 CLIENT_ID = os.getenv("CLIENT_ID")
@@ -211,3 +222,46 @@ def get_b8_image(start_iso, end_iso, bbox):
         "b8": np.array(Image.open(io.BytesIO(decoder.parts[0].content))),
         "clm": np.array(Image.open(io.BytesIO(decoder.parts[1].content))),
     }
+
+
+def download_monthly_images(
+    bbox: list[float], start_date: str, months: int, destination: Path
+):
+    """Download monthly satellite images for a given bounding box and time range.
+
+    For each monthly interval, fetches RGB + cloud mask (CLM) data from Sentinel Hub
+    and saves the raw images as .npz files in the specified destination folder.
+
+    Args:
+        bbox (list[float]): Bounding box as [west, south, east, north] in WGS84.
+        start_date (str): Start date in YYYY-MM-DD format.
+        months (int): Number of monthly intervals to process.
+        destination (Path): Output directory where "raw/" subfolder will be created.
+
+    Returns:
+        Path: Path to the destination folder
+    """
+    start_date_datetime = datetime.strptime(start_date, "%Y-%m-%d")
+    end_date_datetime = start_date_datetime + relativedelta(months=months)
+    iso_datetimes = (
+        start_date_datetime.isoformat() + "Z",
+        end_date_datetime.isoformat() + "Z",
+    )
+
+    bbox_string = "_".join(map(str, bbox))
+    base_folder = destination / bbox_string
+    raw_folder = base_folder / "raw"
+    raw_folder.mkdir(exist_ok=True, parents=True)
+
+    iso_datetimes = utils.monthly_iso_start_end(start_date, months)
+
+    for start_iso, end_iso in tqdm(iso_datetimes, desc="Downloading images"):
+        output_file = raw_folder / f"{start_iso}_{end_iso}.npz"
+
+        if Path(output_file).exists():
+            continue
+
+        im_data = absens_io.get_rgb_image(start_iso, end_iso, bbox)
+        absens_io.save_npy(im_data, output_file)
+
+    return raw_folder
